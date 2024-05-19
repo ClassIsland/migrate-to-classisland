@@ -12,20 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # “最近更新时间” 等 git 日志相关信息，需要拉取全部提交记录
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           # 选择要使用的 node 版本
           node-version: '18.18'
 
       # 缓存 node_modules
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: yarn-cache
         with:
           path: |
@@ -43,7 +43,10 @@ jobs:
       - name: Build frontend
         run: |
           yarn build
+      - name: Patch for girhub pages
+        run: |
           cp dist/index.html dist/404.html
+          echo cimigrate.hello8693.xyz >> dist/CNAME
 
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2
