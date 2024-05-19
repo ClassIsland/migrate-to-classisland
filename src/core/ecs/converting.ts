@@ -18,12 +18,17 @@ function generateGuid(): string {
 
 
 
+// 函数matchTimeSpan用于匹配字符串中的时间跨度
 function matchTimeSpan(s: string): TimeSpan {
+    // 定义正则表达式，匹配字符串中的数字
     const regex = /\d+/gi;
+    // 获取字符串中匹配到的数字
     const nums = s.match(regex);
+    // 判断匹配到的数字是否为4个，不是则抛出错误
     if (nums == null || nums.length != 4){
         throw new Error("无效的时间格式：" + s);
     }
+    // 定义开始时间和结束时间
     const start = new Date();
     start.setUTCHours(+nums[0]);
     start.setUTCMinutes(+nums[1]);
@@ -34,6 +39,7 @@ function matchTimeSpan(s: string): TimeSpan {
     end.setUTCMinutes(+nums[3]);
     end.setUTCSeconds(0);
     end.setUTCMilliseconds(0);
+    // 返回开始时间和结束时间
     return {
         start: start,
         end: end
@@ -41,13 +47,19 @@ function matchTimeSpan(s: string): TimeSpan {
 }
 
 export function convertEcsToClassIsland(profile: Schedule): Profile {
+    // 创建一个Profile实例
     const classIsland = new Profile();
+    // 创建一个Map，用于存储学科的guid
     const subjectMapping = new Map<string, string>();
+    // 创建一个Map，用于存储时间表的guid
     const timeTableMapping = new Map<string, string>();
     // 处理科目
     profile.subject_name.forEach((v, k) => {
+        // 生成一个guid
         const guid = generateGuid();
+        // 将subject_name和guid存入subjectMapping
         subjectMapping.set(k, guid);
+        // 将guid和subject信息存入classIsland.Subjects
         classIsland.Subjects.set(guid, {
             Name: v,
             Initial: k,
@@ -56,30 +68,48 @@ export function convertEcsToClassIsland(profile: Schedule): Profile {
         });
     })
     // 处理时间表
-    profile.timetable.forEach((v, k) => {
+    // 为profile的timetable循环
+profile.timetable.forEach((v, k) => {
+        // 生成GUID
         const guid = generateGuid();
+        // 存储GUID到timeTableMapping
         timeTableMapping.set(k, guid);
+        // 创建TimeLayout实例
         const tl = new TimeLayout();
+        // 如果v.size小于等于0，返回
         if (v.size <= 0) {
             return;
         }
+        // 设置TimeLayout的name
         tl.Name = k;
+        // 初始化last为undefined
         let last: TimeLayoutItem | undefined;
+        // 获取dividers
         const dividers = profile.divider.get(k);
+        // 遍历v
         v.forEach((v, k) => {
+            // 创建TimeLayoutItem实例
             const tp = new TimeLayoutItem();
+            // 获取时间段
             const ts = matchTimeSpan(k);
             console.debug("匹配时间段：", ts);
+            // 设置TimeLayoutItem的startSecond
             tp.StartSecond = ts.start;
+            // 设置TimeLayoutItem的endSecond
             tp.EndSecond = ts.end;
+            // 如果last不为undefined，设置last的endSecond为tp的startSecond
             if (last != undefined) {
                 last.EndSecond = tp.StartSecond;
             }
+            // 如果v的类型为string，设置tp的timetype为1
             if (typeof(v) == "string") {
                 tp.TimeType = 1;
             }
+            // 设置last为tp
             last = tp
+            // 将tp添加到tl的layouts数组中
             tl.Layouts.push(tp);
+            // 如果v的类型为number，并且dividers包含v，创建TimeLayoutItem实例tpd，设置tpd的startSecond和endSecond，将tpd添加到tl的layouts数组中
             if (typeof(v) == "number" && dividers != undefined && dividers.includes(v as number)) {
                 const startDivider = new Date(ts.end.getTime() + 120);
                 const tpd = new TimeLayoutItem();
@@ -88,17 +118,23 @@ export function convertEcsToClassIsland(profile: Schedule): Profile {
                 tl.Layouts.push(tpd)
             }
         });
+        // 获取tl的layouts数组中的第一个元素
         const first = tl.Layouts[0];
+        // 获取tl的layouts数组中的最后一个元素
         const end = tl.Layouts[tl.Layouts.length - 1];
+        // 如果first的startSecond的时为0，且分为为0，将first从tl的layouts数组中移除
         if (first.StartSecond.getUTCHours() == 0 && first.StartSecond.getUTCMinutes() == 0) {
             tl.Layouts.shift();
         }
+        // 如果end的endSecond的时为23，且分为59，将end从tl的layouts数组中移除
         if (end != undefined && end.EndSecond.getUTCHours() == 23 && end.EndSecond.getUTCMinutes() == 59) {
             tl.Layouts.pop();
         }
+        // 对tl的layouts数组排序，根据startSecond
         tl.Layouts.sort((x, y) => {
             return x.StartSecond.getUTCSeconds() - y.EndSecond.getUTCSeconds();
         });
+        // 将tl添加到classIsland的TimeLayouts中
         classIsland.TimeLayouts.set(guid, tl);
     })
 

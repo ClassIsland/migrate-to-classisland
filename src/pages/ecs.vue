@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import { convertEcsToClassIsland } from "../core/ecs/converting";
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import { loadEcsSchedule } from "../core/ecs/ecsLoader";
 import { saveClassIslandProfile } from "../core/classIslandLoader";
 
@@ -29,7 +29,7 @@ function loadFile() {
   if (file.value) {
     const reader = new FileReader();
     reader.onload = (event) => {
-      fileContent.value = event.target?.result;
+      fileContent.value = event.target?.result as string;
     };
     reader.readAsText(file.value);
   }
@@ -41,7 +41,7 @@ function downloadJson(fileName, json) {
 
     const url = window.URL || window.webkitURL || window;
     const blob = new Blob([jsonStr]);
-    const saveLink = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+    const saveLink = document.createElement('a');
     saveLink.href = url.createObjectURL(blob);
     saveLink.download = fileName;
     saveLink.click();
