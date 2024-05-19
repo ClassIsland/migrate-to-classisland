@@ -8,12 +8,15 @@
       :title="item.title"
       :subtitle="item.subtitle"
       :text="item.text"
-      @click="this.$router.push(item.path);"
+      @click="router.push(item.path);"
     ></v-card>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 //
 
 const migrateMethods = [
