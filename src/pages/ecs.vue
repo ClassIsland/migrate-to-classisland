@@ -34,6 +34,7 @@
           <br />
           <v-file-input
             v-model="file"
+            accept=".js"
             label="上传配置文件"
             @multiple="false"
             @change="loadFile()"
