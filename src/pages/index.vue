@@ -23,7 +23,7 @@ const migrateMethods = [
   {
     title: "从Electron Class Schedule迁移",
     subtitle: "核心来自HelloWRC",
-    text: "可迁移内容：所有",
+    text: "可迁移内容：课表部分，最多只支持两周的轮换",
     path: "/ecs"
   },
 ];
