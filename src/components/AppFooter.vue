@@ -9,7 +9,7 @@
       target="_blank"
     >
       <v-icon :size="24" class="ci-logo">
-        <SvgIcon name="logo-cilogo"/>
+        <SvgIcon name="logo-cilogo" size="24px"/>
       </v-icon>
     </a>
 
@@ -69,19 +69,15 @@ const items = [
 </script>
 
 <style scoped lang="sass">
-.ci-logo svg {
-  height: 24px !important;
-}
 
-.social-link :deep(.v-icon) {
+.social-link :deep(.v-icon)
   color: rgba(var(--v-theme-on-background), var(--v-disabled-opacity))
   text-decoration: none
   transition: .2s ease-in-out
 
-  &:hover {
+  &:hover
     color: rgba(25, 118, 210, 1)
-  }
-}
+
 
 
 </style>

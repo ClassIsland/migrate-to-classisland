@@ -1,5 +1,5 @@
 <template>
-  <svg aria-hidden="true">
+  <svg aria-hidden="true" :style="{ width: size, height: size }">
     <use :href="symbolId" :fill="color" />
   </svg>
 </template>
@@ -21,6 +21,10 @@ export default defineComponent({
     color: {
       type: String,
       default: '#333',
+    },
+    size: {
+      type: [String, Number],
+      default: '12px',
     },
   },
   setup(props) {
