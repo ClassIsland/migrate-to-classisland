@@ -2,9 +2,7 @@
   <v-app>
     <v-main>
       <router-view v-slot="{ Component }">
-        <transition name="fade">
           <component :is="Component" />
-        </transition>
       </router-view>
     </v-main>
   </v-app>
@@ -13,3 +11,11 @@
 <script lang="ts" setup>
 //
 </script>
+
+<style lang="scss">
+html,
+body {
+  overflow: hidden;
+}
+
+</style>

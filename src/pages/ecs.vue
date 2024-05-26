@@ -79,7 +79,9 @@
             <v-alert
               v-show="convertingError"
               title="转换失败"
-              :text="'转换过程中发生错误，请检查您的配置文件。'+convertingError"
+              :text="
+                '转换过程中发生错误，请检查您的配置文件。' + convertingError
+              "
               type="error"
             ></v-alert>
           </v-expand-transition>
