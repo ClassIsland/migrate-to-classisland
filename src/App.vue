@@ -13,9 +13,7 @@
 </script>
 
 <style lang="scss">
-html,
-body {
-  overflow: hidden;
+footer svg{
+  height: 24px !important;
 }
-
 </style>
