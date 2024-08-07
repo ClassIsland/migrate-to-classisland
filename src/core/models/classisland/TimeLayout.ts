@@ -1,6 +1,6 @@
-import { TimeLayoutItem } from "./TimeLayoutItem";
+import { TimeLayoutItem } from './TimeLayoutItem';
 
 export class TimeLayout {
-    Layouts: Array<TimeLayoutItem> = [];
-    Name: string = "";
+  Layouts: Array<TimeLayoutItem> = [];
+  Name: string = '';
 }

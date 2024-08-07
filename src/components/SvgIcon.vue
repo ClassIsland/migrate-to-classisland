@@ -5,31 +5,31 @@
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   name: 'SvgIcon',
   props: {
     prefix: {
       type: String,
-      default: 'icon',
+      default: 'icon'
     },
     name: {
       type: String,
-      required: true,
+      required: true
     },
     color: {
       type: String,
-      default: '#333',
+      default: '#333'
     },
     size: {
       type: [String, Number],
-      default: '12px',
-    },
+      default: '12px'
+    }
   },
   setup(props) {
-    const symbolId = computed(() => `#${props.prefix}-${props.name}`)
-    return { symbolId }
-  },
-})
+    const symbolId = computed(() => `#${props.prefix}-${props.name}`);
+    return { symbolId };
+  }
+});
 </script>

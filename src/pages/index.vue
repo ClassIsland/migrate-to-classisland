@@ -8,7 +8,7 @@
       :title="item.title"
       :subtitle="item.subtitle"
       :text="item.text"
-      @click="router.push(item.path);"
+      @click="router.push(item.path)"
     ></v-card>
   </div>
 </template>
@@ -21,12 +21,10 @@ const router = useRouter();
 
 const migrateMethods = [
   {
-    title: "从Electron Class Schedule迁移",
-    subtitle: "核心来自HelloWRC",
-    text: "可迁移内容：课表部分(最多只支持两周的轮换)",
-    path: "/ecs"
-  },
+    title: '从Electron Class Schedule迁移',
+    subtitle: '核心来自HelloWRC',
+    text: '可迁移内容：课表部分(最多只支持两周的轮换)',
+    path: '/ecs'
+  }
 ];
-
-
 </script>
