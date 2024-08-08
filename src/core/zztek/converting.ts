@@ -2,27 +2,8 @@ import { TimeLayout } from '../models/classisland/TimeLayout';
 import { TimeLayoutItem } from '../models/classisland/TimeLayoutItem';
 import { Profile } from '../models/classisland/Profile';
 import { ClassPlan } from '../models/classisland/ClassPlan';
-import { Timetable, Lesson } from './zongziTEKModels'; // 假设这是定义了 Timetable 和 Lesson 的文件
+import { Timetable } from '../models/zztek/Timetable';
 import { v4 as uuidV4 } from 'uuid';
-
-interface Lesson {
-  Subject: string;
-  StartTime: string;
-  EndTime: string;
-  IsSplitBelow: boolean;
-  IsStrongClassOverNotificationEnabled: boolean;
-}
-
-interface Timetable {
-  Monday: Lesson[];
-  Tuesday: Lesson[];
-  Wednesday: Lesson[];
-  Thursday: Lesson[];
-  Friday: Lesson[];
-  Saturday: Lesson[];
-  Sunday: Lesson[];
-  Temp: Lesson[];
-}
 
 function generateGuid(): string {
   return uuidV4();
@@ -37,7 +18,7 @@ function parseTime(timeStr: string): Date {
   return time;
 }
 
-function convertZongziTEKToClassIsland(timetable: Timetable): Profile {
+export function convertZongziTEKToClassIsland(timetable: Timetable): Profile {
   const classIsland = new Profile();
 
   // 创建一个Map，用于存储学科的guid
@@ -50,10 +31,10 @@ function convertZongziTEKToClassIsland(timetable: Timetable): Profile {
     const lessons = timetable[day as keyof Timetable];
     lessons.forEach((lesson) => {
       const guid = generateGuid();
-      subjectMapping.set(lesson.subject, guid);
+      subjectMapping.set(lesson.Subject, guid);
       classIsland.Subjects.set(guid, {
-        Name: lesson.subject,
-        Initial: lesson.subject.substring(0, 1),
+        Name: lesson.Subject,
+        Initial: lesson.Subject.substring(0, 1),
         TeacherName: '',
         IsOutDoor: false
       });
@@ -75,8 +56,8 @@ function convertZongziTEKToClassIsland(timetable: Timetable): Profile {
     lessons.forEach((lesson) => {
       const tp = new TimeLayoutItem();
       // 将时间字符串转换为 Date 对象
-      const startTime = parseTime(lesson.startTime);
-      const endTime = parseTime(lesson.endTime);
+      const startTime = parseTime(lesson.StartTime);
+      const endTime = parseTime(lesson.EndTime);
 
       tp.StartSecond = startTime;
       tp.EndSecond = endTime;
@@ -100,7 +81,7 @@ function convertZongziTEKToClassIsland(timetable: Timetable): Profile {
     cp.TimeLayoutId = timeLayoutId;
 
     lessons.forEach((lesson) => {
-      const subjectId = subjectMapping.get(lesson.subject);
+      const subjectId = subjectMapping.get(lesson.Subject);
       cp.Classes.push({ SubjectId: subjectId ?? '' });
     });
 
