@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore",
     "prepare": "husky install",
-    "commitlint": "commitlint --config commitlint.config.cjs -e -V"
+    "commitlint": "commitlint --config commitlint.config.cjs -e -V",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "@mdi/font": "6.2.95",
@@ -36,9 +37,13 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-vue": "^9.22.0",
     "husky": "^8.0.0",
+    "lint-staged": "^15.2.8",
     "pinia": "^2.1.7",
+    "postcss-lit": "^1.1.1",
     "prettier": "^3.3.1",
     "sass": "^1.71.1",
+    "stylelint": "^16.8.1",
+    "stylelint-config-standard": "^36.0.1",
     "typescript": "^5.4.2",
     "unplugin-auto-import": "^0.17.5",
     "unplugin-fonts": "^1.1.1",
@@ -50,6 +55,25 @@
     "vite-plugin-vuetify": "^2.0.3",
     "vue-router": "^4.3.0",
     "vue-tsc": "^2.0.6"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.json": [
+      "prettier --write"
+    ],
+    "*.vue": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{scss,less,html}": [
+      "prettier --write"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
   },
   "packageManager": "yarn@1.22.21+sha1.1959a18351b811cdeedbd484a8f86c3cc3bbaf72"
 }
