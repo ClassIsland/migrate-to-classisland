@@ -9,6 +9,7 @@
       :subtitle="item.subtitle"
       :text="item.text"
       @click="router.push(item.path)"
+      class="button-card"
     ></v-card>
   </div>
 </template>
@@ -34,3 +35,10 @@ const migrateMethods = [
   }
 ];
 </script>
+
+<style scoped>
+.button-card {
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+</style>
