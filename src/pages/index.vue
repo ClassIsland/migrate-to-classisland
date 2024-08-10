@@ -25,6 +25,12 @@ const migrateMethods = [
     subtitle: '核心来自HelloWRC',
     text: '可迁移内容：课表部分(最多只支持两周的轮换)',
     path: '/ecs'
+  },
+  {
+    title: '从ZongziTEK黑板贴迁移',
+    subtitle: '不支持单双周',
+    text: '可迁移内容：所有',
+    path: '/zztek'
   }
 ];
 </script>
