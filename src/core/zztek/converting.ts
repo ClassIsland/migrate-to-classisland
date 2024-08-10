@@ -53,7 +53,7 @@ export function convertZongziTEKToClassIsland(timetable: Timetable): Profile {
     const tl = new TimeLayout();
     tl.Name = day;
 
-    lessons.forEach((lesson) => {
+    lessons.forEach((lesson, index) => {
       const tp = new TimeLayoutItem();
       // 将时间字符串转换为 Date 对象
       const startTime = parseTime(lesson.StartTime);
@@ -61,8 +61,17 @@ export function convertZongziTEKToClassIsland(timetable: Timetable): Profile {
 
       tp.StartSecond = startTime;
       tp.EndSecond = endTime;
-      tp.TimeType = 1; // Assuming all lessons are of the same type for simplicity
+      tp.TimeType = 0;
       tl.Layouts.push(tp);
+
+      if (index < lessons.length - 1) {
+        const nextLessonStartTime = parseTime(lessons[index + 1].StartTime);
+        const restTp = new TimeLayoutItem();
+        restTp.StartSecond = endTime;
+        restTp.EndSecond = nextLessonStartTime;
+        restTp.TimeType = 1; // 课间休息时间
+        tl.Layouts.push(restTp);
+      }
     });
 
     classIsland.TimeLayouts.set(guid, tl);
@@ -77,7 +86,7 @@ export function convertZongziTEKToClassIsland(timetable: Timetable): Profile {
     if (timeLayoutId == undefined) return;
 
     cp.Name = day;
-    cp.TimeRule.WeekDay = index;
+    cp.TimeRule.WeekDay = (index + 1) % 7 === 0 ? 0 : (index + 1) % 7;
     cp.TimeLayoutId = timeLayoutId;
 
     lessons.forEach((lesson) => {
