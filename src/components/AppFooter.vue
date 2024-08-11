@@ -38,7 +38,7 @@
       >
       &nbsp;|&nbsp;
       <a
-        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+        href="https://beian.mps.gov.cn/#/query/webSearch"
         target="_blank"
         rel="noopener noreferrer"
         class="beian-link"
