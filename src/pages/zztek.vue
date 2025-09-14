@@ -1,4 +1,45 @@
 <template>
+  <!-- Deprecation Warning -->
+  <v-alert
+    type="warning"
+    variant="tonal"
+    border="start"
+    class="mb-6"
+    closable
+  >
+    <v-alert-title class="text-h6 mb-2">
+      ⚠️ 此迁移工具已废弃
+    </v-alert-title>
+    
+    <div class="text-body-2 mb-3">
+      <p class="mb-1">
+        此工具仅适配 <strong>ClassIsland v1</strong>，已不再适用于 <strong>ClassIsland v2</strong>。
+      </p>
+    </div>
+
+    <div class="d-flex flex-column flex-sm-row gap-2">
+      <v-btn
+        color="primary"
+        variant="text"
+        href="https://classisland.tech/"
+        target="_blank"
+        size="small"
+        prepend-icon="mdi-open-in-new"
+      >
+        访问 ClassIsland 官网
+      </v-btn>
+      
+      <v-btn
+        variant="text"
+        size="small"
+        @click="$router.push('/')"
+        prepend-icon="mdi-arrow-left"
+      >
+        返回首页
+      </v-btn>
+    </div>
+  </v-alert>
+
   <h1 class="text-h3 text-sm-h3">从ZongziTEK黑板贴迁移</h1>
 
   <br />
